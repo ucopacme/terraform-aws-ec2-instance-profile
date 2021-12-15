@@ -1,7 +1,7 @@
 variable "name" {
   description = "Prefix (eg. abc) of the instance profile (abcProfile) and role (abcRole) names"
   type        = string
-  default     = ""
+  default     = null
 }
 
 variable "enabled" {
