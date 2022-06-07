@@ -1,4 +1,4 @@
 output "profile_name" {
   description = "Instance profile name"
-  value       = join("", aws_iam_role.this.*.name)
+  value       = "${aws_iam_instance_profile.main.name}"
 }
