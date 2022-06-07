@@ -1,49 +1,32 @@
-# terraform-aws-ec2
-Terraform AWS EC2-Instance-Profile Module
-
-
--->
-
-Terraform module to provision AWS [`EC2-Instance-Profile`]
-
-
-
-## Introduction
-
-The module will create:
-
-* EC2 Instance-profile
-
-
-## Usage
-Create terragrunt.hcl config file, copy/past the following configuration.
-
-
-
-```hcl
-
-#
-# Include all settings from root terragrunt.hcl file
-include {
-  path = find_in_parent_folders()
+# Instance profile with only the default policy to allow usage of AWS SSM
+module "ssm_profile" {
+  source            = "github.com/jeandek/terraform-aws-ec2-instance-profile"
+  name              = "SimpleSSMProfile"
+  attach_ssm_policy = true
 }
 
+# Instance profile using existing managed policies
+module "managed_profile" {
+  source      = "github.com/jeandek/terraform-aws-ec2-instance-profile"
+  name        = "ManagedPoliciesProfile"
+  policy_arns = [
+    "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role",
+    "arn:aws:iam::123456789012:policy/myPolicyName",
+  ]
+}
 
-inputs = {
-  enabled = true
-  name = "EC2-Instance-Profile-name"
-  tags = {
-    "ucop:application" = "test"
-    "ucop:createdBy"   = "terraform"
-    "ucop:environment" = "Prod"
-    "ucop:group"       = "test"
-    "ucop:source"      = join("/", ["https://github.com/ucopacme/ucop-terraform-config/tree/master/terraform", path_relative_to_include()])
-    "Name"             = "test-1"
-    "ucop:owner"       = "chs"
+# Instance profile with a custon policy and the CloudWatch agent policy
+module "custom_profile" {
+  source            = "github.com/jeandek/terraform-aws-ec2-instance-profile"
+  name              = "CustomProfile"
+  policy_jsons = ["${data.aws_iam_policy_document.example.json}"]
+  attach_cwagent_policy = true
+}
+
+data "aws_iam_policy_document" "example" {
+  statement {
+    effect = "Allow"
+    actions = ["ec2:DescribeInstances"]
+    resources = ["*"]
   }
-}
-
-terraform {
-  source = "git::https://git@github.com/ucopacme/terraform-aws-ec2-instance-profile.git//"
-  
 }
