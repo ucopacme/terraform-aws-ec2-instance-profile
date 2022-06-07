@@ -7,24 +7,24 @@ Terraform module to create an instance profile and an IAM role of an EC2 instanc
 ```hcl
 # Instance profile with only the default policy to allow usage of AWS SSM
 module "ssm_profile" {
-  source            = "github.com/jeandek/terraform-aws-ec2-instance-profile"
+  source            = "git::https://git@github.com/ucopacme/terraform-aws-ec2-instance-profile.git//?ref=v0.0.4"
   name              = "SimpleSSMProfile"
   attach_ssm_policy = true
 }
 
 # Instance profile using existing managed policies
 module "managed_profile" {
-  source      = "github.com/jeandek/terraform-aws-ec2-instance-profile"
+  source      = "git::https://git@github.com/ucopacme/terraform-aws-ec2-instance-profile.git//?ref=v0.0.4"
   name        = "ManagedPoliciesProfile"
   policy_arns = [
     "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role",
-    "arn:aws:iam::123456789012:policy/myPolicyName",
+    "arn:aws:iam::accountNo:policy/myPolicyName",
   ]
 }
 
 # Instance profile with a custon policy and the CloudWatch agent policy
 module "custom_profile" {
-  source            = "github.com/jeandek/terraform-aws-ec2-instance-profile"
+  source            = "git::https://git@github.com/ucopacme/terraform-aws-ec2-instance-profile.git//?ref=v0.0.4"
   name              = "CustomProfile"
   policy_jsons = ["${data.aws_iam_policy_document.example.json}"]
   attach_cwagent_policy = true
@@ -57,6 +57,5 @@ data "aws_iam_policy_document" "example" {
 |------|-------------|
 | profile\_name | Instance profile name |
 
-## Authors
 
-Module maintained by Jean de Kernier.
+
