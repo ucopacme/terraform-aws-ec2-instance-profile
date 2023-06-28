@@ -18,7 +18,7 @@ data "aws_iam_policy_document" "assume_role" {
 
     principals {
       type        = "Service"
-      identifiers = ["ec2.amazonaws.com","ssm.amazonaws.com"]
+      identifiers = ["ec2.amazonaws.com"]
     }
 
     actions = ["sts:AssumeRole"]
@@ -43,6 +43,12 @@ resource "aws_iam_role_policy_attachment" "ssm_policy" {
   role       = "${aws_iam_role.main.name}"
   policy_arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
   count      = "${var.attach_ssm_policy ? 1 : 0}"
+}
+
+resource "aws_iam_role_policy_attachment" "ssm_directoryservice_policy" {
+  role       = "${aws_iam_role.main.name}"
+  policy_arn = "arn:aws:iam::aws:policy/AmazonSSMDirectoryServiceAccess"
+  count      = "${var.attach_ssm_directoryservice_policy ? 1 : 0}"
 }
 
 resource "aws_iam_role_policy_attachment" "cwagent_policy" {

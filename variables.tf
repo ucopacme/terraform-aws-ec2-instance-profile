@@ -17,13 +17,19 @@ variable "policy_arns" {
 
 variable "attach_ssm_policy" {
   description = "Toggles attachment of the AmazonSSMManagedInstanceCore policy to allow usage of AWS SSM"
-  type        = string
+  type        = bool
+  default     = false
+}
+
+variable "attach_ssm_directoryservice_policy" {
+  description = "Toggles attachment of the AmazonSSMDirectoryServiceAccess policy to allow usage of AWS-managed Directory Service"
+  type        = bool
   default     = false
 }
 
 variable "attach_cwagent_policy" {
   description = "Toggles attachment of the CloudWatchAgentServerPolicy policy to allow usage of CloudWatch agent"
-  type        = string
+  type        = bool
   default     = false
 }
 
