@@ -7,14 +7,14 @@ Terraform module to create an instance profile and an IAM role of an EC2 instanc
 ```hcl
 # Instance profile with only the default policy to allow usage of AWS SSM
 module "ssm_profile" {
-  source            = "git::https://git@github.com/ucopacme/terraform-aws-ec2-instance-profile.git//?ref=v0.0.4"
+  source            = "git::https://git@github.com/ucopacme/terraform-aws-ec2-instance-profile.git//?ref=v0.0.7"
   name              = "SimpleSSMProfile"
   attach_ssm_policy = true
 }
 
 # Instance profile using existing managed policies
 module "managed_profile" {
-  source      = "git::https://git@github.com/ucopacme/terraform-aws-ec2-instance-profile.git//?ref=v0.0.4"
+  source      = "git::https://git@github.com/ucopacme/terraform-aws-ec2-instance-profile.git//?ref=v0.0.7"
   name        = "ManagedPoliciesProfile"
   policy_arns = [
     "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role",
@@ -24,7 +24,7 @@ module "managed_profile" {
 
 # Instance profile with a custon policy and the CloudWatch agent policy
 module "custom_profile" {
-  source            = "git::https://git@github.com/ucopacme/terraform-aws-ec2-instance-profile.git//?ref=v0.0.4"
+  source            = "git::https://git@github.com/ucopacme/terraform-aws-ec2-instance-profile.git//?ref=v0.0.7"
   name              = "CustomProfile"
   policy_jsons = ["${data.aws_iam_policy_document.example.json}"]
   attach_cwagent_policy = true
@@ -45,6 +45,7 @@ data "aws_iam_policy_document" "example" {
 |------|-------------|:----:|:-----:|:-----:|
 | attach\_cwagent\_policy | Toggles attachment of the CloudWatchAgentServerPolicy policy to allow usage of CloudWatch agent | string | `"false"` | no |
 | attach\_ssm\_policy | Toggles attachment of the AmazonSSMManagedInstanceCore policy to allow usage of AWS SSM | string | `"false"` | no |
+| attach\_ssm\_directoryservice\_policy | Toggles attachment of the AmazonSSMDirectoryServiceAccess policy to allow usage of AWS-managed Directory Service | string | `"false"` | no |
 | name | Prefix \(eg. abc\) of the instance profile \(abcProfile\) and role \(abcRole\) names | string | n/a | yes |
 | path | Path for the instance profile, role and user-managed policy \(if any\) | string | `"/"` | no |
 | policy\_arns | ARNs of IAM policies for the role | list | `[]` | no |
