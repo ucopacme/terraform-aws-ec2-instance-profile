@@ -57,6 +57,11 @@ resource "aws_iam_role_policy_attachment" "cwagent_policy" {
   count      = "${var.attach_cwagent_policy ? 1 : 0}"
 }
 
+resource "aws_iam_role_policy_attachment" "awsquicksetup_patchpolicy_baseline_access" {
+  role       = "${aws_iam_role.main.name}"
+  policy_arn = "arn:aws:iam::aws:policy/AWSQuickSetupPatchPolicyBaselineAccess"
+}
+
 resource "aws_iam_role_policy_attachment" "attached_policies" {
   role       = "${aws_iam_role.main.name}"
   policy_arn = "${var.policy_arns[count.index]}"
