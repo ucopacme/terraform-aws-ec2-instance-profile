@@ -18,7 +18,7 @@ variable "policy_arns" {
 variable "attach_ssm_policy" {
   description = "Toggles attachment of the AmazonSSMManagedInstanceCore policy to allow usage of AWS SSM"
   type        = bool
-  default     = false
+  default     = true
 }
 
 variable "attach_ssm_directoryservice_policy" {
@@ -30,7 +30,13 @@ variable "attach_ssm_directoryservice_policy" {
 variable "attach_cwagent_policy" {
   description = "Toggles attachment of the CloudWatchAgentServerPolicy policy to allow usage of CloudWatch agent"
   type        = bool
-  default     = false
+  default     = true
+}
+
+variable "attach_awsquicksetup_patchpolicy_baseline_access" {
+  description = "Toggles attachment of the AWSQuickSetupPatchPolicyBaselineAccess policy"
+  type        = bool
+  default     = true
 }
 
 variable "path" {
